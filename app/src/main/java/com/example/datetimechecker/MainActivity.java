@@ -1,10 +1,15 @@
 package com.example.datetimechecker;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.ActionBar;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,13 +47,13 @@ public class MainActivity extends AppCompatActivity {
                 int Cyear = Integer.parseInt(etYearCheck.getText().toString());
 
                 if(Cday<1 || Cday >31){
-                    Toast.makeText(MainActivity.this,"Input data for day is out of range!",Toast.LENGTH_LONG).show();
+                    showWrongDialog("Input day is out of range!");
                 }
                 else if(checkDate(Cday,Cmonth,Cyear) == true){
-                    Toast.makeText(MainActivity.this,"Correct day!",Toast.LENGTH_SHORT).show();
+                    showCorrectDialog();
                 }
                 else{
-                    Toast.makeText(MainActivity.this,"Invalid date!",Toast.LENGTH_SHORT).show();
+                    showWrongDialog("Invalid date!");
                 }
             }
         });
@@ -105,5 +110,48 @@ public class MainActivity extends AppCompatActivity {
         else{
             return false;
         }
+    }
+
+    void showCorrectDialog(){
+        final Dialog dialog = new Dialog(MainActivity.this);
+
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.correct_dialog);
+
+        Button btnDone = dialog.findViewById(R.id.btnCDialogDone);
+
+        btnDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        Window window = dialog.getWindow();
+        window.setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT);
+    }
+
+    void showWrongDialog(String message){
+        final Dialog dialog = new Dialog(MainActivity.this);
+
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.wrong_dialog);
+
+        TextView tvInfo = dialog.findViewById(R.id.tvWDialogInfo);
+        Button btnDone = dialog.findViewById(R.id.btnWDialogDone);
+
+        tvInfo.setText(message);
+
+        btnDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        Window window = dialog.getWindow();
+        window.setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT);
     }
 }
