@@ -49,6 +49,12 @@ public class MainActivity extends AppCompatActivity {
                 if(Cday<1 || Cday >31){
                     showWrongDialog("Input day is out of range!");
                 }
+                else if(Cmonth<1 || Cmonth >12){
+                    showWrongDialog("Input month is out of range!");
+                }
+                else if(Cyear<0){
+                    showWrongDialog("Input year is out of range!");
+                }
                 else if(checkDate(Cday,Cmonth,Cyear) == true){
                     showCorrectDialog();
                 }
